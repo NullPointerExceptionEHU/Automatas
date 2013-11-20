@@ -1,6 +1,10 @@
 module LibreriaAutomatas where
 import Data.List
 
+isNum:: [Char] -> Bool
+isNum nums = (length [ x | x <- nums, x `elem` ['0'..'9']]) == (length nums)
+
+{--
 comprobarNumVar:: Int -> Bool
 comprobarNumVar x
 	| x<1 = False
@@ -13,22 +17,22 @@ comprobarValor l r cant
 	| cant>length l = False
 	| length ([x|x<-l, x `elem` r]) == cant	= True
 	| otherwise = False
-	
+--}	
 
 --pedirSiNo::[Char] -> Bool
 
-	
+{-- TODO Generalizar
 pedirValoracion:: IO [Bool]
 pedirValoracion = do
 					putStrLn "Introduce una valoracion: "
 					valoracion <- getLine
 					if comprobarValor valoracion ['0', '1'] then
-						valoracionBool = (transformarCharABool valoracion)
+						let valoracionBool = (transformarCharABool valoracion)
 						return valoracionBool
 					else
 						putStrLn "Incorrecto"
 						pedirValoracion
-		       
+--}		       
 		       		       
 transformarCharABool:: [Char] -> [Bool]
 transformarCharABool l= [ (caracterABool x) | x <- l]
