@@ -2,8 +2,21 @@ module LibreriaAutomatas where
 import Data.List
 
 isNum:: [Char] -> Bool
-isNum nums = (length [ x | x <- nums, x `elem` ['0'..'9']]) == (length nums)
-
+isNum nums = (length [ x | x <- nums, x `elem` ['0'..'9']]) == (length nums) && nums /= ""
+	
+pedirNumVariables:: IO Int
+pedirNumVariables = do putStrLn "Introduce un numero de variables: "
+		       putStr ">> "
+		       numVar <- getLine
+		       if not (isNum numVar) || numVar == "0" then pedirNumVariables
+		       else return (read numVar :: Int)
+		       
+pedirValorK:: IO Int
+pedirValorK = do putStrLn "Introduce el valor de k: "
+		 putStr ">> "
+		 valK <- getLine
+		 if not (isNum valK) || valK == "0" then pedirValorK
+		 else return (read valK :: Int)
 {--
 comprobarNumVar:: Int -> Bool
 comprobarNumVar x
