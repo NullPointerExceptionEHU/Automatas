@@ -17,6 +17,36 @@ pedirValorK = do putStrLn "Introduce el valor de k: "
 		 valK <- getLine
 		 if not (isNum valK) || valK == "0" then pedirValorK
 		 else return (read valK :: Int)
+		 
+-------------------Comments--------------------
+-- 0 -> False
+-- 1 -> True
+-- 2 -> Negada
+
+-- 100 -> X1
+-- .
+-- .
+-- .
+-----------------------------------------------
+
+anadirCombinacion :: [Char] -> [[Char]] -> Int -> Int -> [[Char]]
+anadirCombinacion alf leng n k
+	| alf == [] = error "Alfabeto vacio"
+	|otherwise   = [ x:y | x <- alf, y <- leng, (x:y) /= [ '0' | z <- [1..n]], length [ z | z <- (x:y), z `elem` "12"] <= k]
+
+
+todasCombinacionLongN :: [Char] -> [[Char]] -> Int -> Int -> [[Char]]
+
+todasCombinacionLongN alf leng n k
+   | alf == []   = error "Alfabeto vacio" 
+   | length (head leng) == n = leng
+   | otherwise   = todasCombinacionLongN alf leng2 n k
+   where leng2 = anadirCombinacion alf leng n k
+   
+generarH:: Int -> Int -> [[Char]]
+generarH n k = todasCombinacionLongN "012" [""] n k
+
+-- ===============================================================
 {--
 comprobarNumVar:: Int -> Bool
 comprobarNumVar x
