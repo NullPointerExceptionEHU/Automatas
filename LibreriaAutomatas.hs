@@ -4,6 +4,9 @@ import Data.List
 isNum:: [Char] -> Bool
 isNum nums = (length [ x | x <- nums, x `elem` ['0'..'9']]) == (length nums) && nums /= ""
 	
+isNumVal:: Int -> [Char] -> Bool
+isNumVal n nums = (length [ x | x <- nums, x `elem` ['0','1']]) == (length nums) && nums /= "" && (length nums) == n
+
 pedirNumVariables:: IO Int
 pedirNumVariables = do putStrLn "Introduce un numero de variables: "
 		       putStr ">> "
@@ -17,7 +20,14 @@ pedirValorK = do putStrLn "Introduce el valor de k: "
 		 valK <- getLine
 		 if not (isNum valK) || valK == "0" then pedirValorK
 		 else return (read valK :: Int)
-		 
+
+pedirValoracion:: Int -> IO [Char]
+pedirValoracion n = do putStrLn "Introduce una valoracion: "
+                       putStr ">> "
+		       valoracion <- getLine
+		       if not (isNumVal n valoracion) || valoracion == "0" then pedirValoracion n
+		       else return valoracion
+		    		 
 -------------------Comments--------------------
 -- 0 -> False
 -- 1 -> True
@@ -47,6 +57,20 @@ generarH:: Int -> Int -> [[Char]]
 generarH n k = todasCombinacionLongN "012" [""] n k
 
 -- ===============================================================
+
+mostrarXes:: [[Char]] -> [[[Char]]]
+mostrarXes l = filter (not . null) [ mostrarXesaux x | x <- l]
+
+
+mostrarXesaux:: [Char] -> [[Char]]
+mostrarXesaux l = [ (mostrar x y) | (x,y) <- zip ['1'..] l, y == '1' || y == '2']
+
+mostrar:: Char -> Char -> [Char]
+mostrar x y
+	| y == '1' = "X"++[x]
+	|otherwise = "¬X"++[x] -- si y==2
+
+-- ==============================================
 {--
 comprobarNumVar:: Int -> Bool
 comprobarNumVar x
